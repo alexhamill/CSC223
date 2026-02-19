@@ -39,6 +39,9 @@ for i in range(len(store)):
 
 s = 0
 l = 0
+
+#each repersents one minute
+
 while len(line) > 0 or len(store) > 0 or len(store) > 0:
     if (len(line) >= 10):
         leave()
