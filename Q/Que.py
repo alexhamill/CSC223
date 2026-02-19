@@ -29,11 +29,3 @@ while len(line) > 0 or len(store) > 0:
             leave()
         else:
             enter()
-
-    print(line)
-    print(store)
-
-
-
-print(line)
-print(store)
