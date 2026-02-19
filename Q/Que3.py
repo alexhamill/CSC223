@@ -15,7 +15,7 @@ def z_from_percentile(p):
 
 def leave():
     print(line.pop(0), "finishes checkout and leaves.")
-    timeinstore.pop(0)
+    timeinline.pop(0)
 
 def enter():
     if len(store) > 0:
@@ -24,6 +24,14 @@ def enter():
         ltime = round(z_from_percentile((random.randint(1,100)/100) * checkoutstd)+avgcheckouttime)
         timeinline.append(ltime)
         print(line[-1], "gets in line.")
+
+def enterspecific(name):
+    timeinstore.remove(timeinstore[store.index(name)])
+    line.append(name)
+    store.remove(name)
+    ltime = round(z_from_percentile((random.randint(1,100)/100) * checkoutstd)+avgcheckouttime)
+    timeinline.append(ltime)
+    print(line[-1], "gets in line.")
 
 timeinline = []
 timeinstore = []
@@ -41,24 +49,27 @@ s = 0
 l = 0
 
 #each repersents one minute
-
+time =0
 while len(line) > 0 or len(store) > 0 or len(store) > 0:
-    if (len(line) >= 10):
-        leave()
+    print ("Time: ", 9+(time//60),":",time%60)
     
-    if len(line) == 0:
-        enter()
-    
-    if l >= timeinline[0]:
+    if len(line) > 0 and l >= timeinline[0]:
         l=0
         leave()
-        
-    if len(store) > 0 and s >= timeinstore[0]:
-        s=0
-        enter()
+    i=0
+    while i < len(store):
+        if len(timeinstore) > 0 and timeinstore[i] < s and len(line) <= 10:
+            enterspecific(store[i])
+        else:
+            i += 1
+
+    # if len(store) > 0 and s >= timeinstore[0]:
+    #     s=0
+    #     enter()
 
     s += 1
     l += 1
+    time += 1
 
-print(line)
-print(store)
+# print(line)
+# print(store)
