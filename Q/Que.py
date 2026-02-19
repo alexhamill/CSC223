@@ -22,8 +22,6 @@ for i in range(len(store)):
 while len(line) > 0 or len(store) > 0:
     if (len(line) >= 10):
         leave()
-    elif (len(line) == 0):
-        enter()
     else:
         if random.randint(0, 3) == 0:
             leave()
