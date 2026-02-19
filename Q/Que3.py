@@ -21,7 +21,7 @@ def enter():
     if len(store) > 0:
         cur = random.randint(0, len(store) - 1)
         line.append(store.pop(cur))
-        ltime = round(z_from_percentile((random.randint(1,100)/100) * checkoutstd)+avgcheckouttime)
+        ltime = round(z_from_percentile((random.random()) * checkoutstd)+avgcheckouttime)
         timeinline.append(ltime)
         print(line[-1], "gets in line.")
 
@@ -29,7 +29,7 @@ def enterspecific(name):
     timeinstore.remove(timeinstore[store.index(name)])
     line.append(name)
     store.remove(name)
-    ltime = round(z_from_percentile((random.randint(1,100)/100) * checkoutstd)+avgcheckouttime)
+    ltime = round(z_from_percentile((random.random()) * checkoutstd)+avgcheckouttime)
     timeinline.append(ltime)
     print(line[-1], "gets in line.")
 
@@ -42,7 +42,7 @@ with open("shoppers.txt", "r") as f:
 
 for i in range(len(store)):
     store[i] = store[i].strip()
-    stime = round(z_from_percentile(random.randint(1,100)/100)* shopstd + avgshoptime)
+    stime = round(z_from_percentile(random.random())* shopstd + avgshoptime)
     timeinstore.append(stime)
 
 s = 0
