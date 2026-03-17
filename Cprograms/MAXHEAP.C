@@ -78,14 +78,29 @@ int val;
 remove_leaf(i)
 int i;
 {
-    int par;
-    par = storage[i].parent;
+    int last, par;
+    last = storage_size - 1;
+
+    if (i != last) {
+        storage[i].value = storage[last].value;
+        par = storage[last].parent;
+        storage[i].parent = par;
+        if (par != NULL_NODE) {
+            if (storage[par].left == last)
+                storage[par].left = i;
+            else
+                storage[par].right = i;
+        }
+    }
+
+    par = storage[last].parent;
     if (par != NULL_NODE) {
-        if (storage[par].left == i)
+        if (storage[par].left == last)
             storage[par].left = NULL_NODE;
         else
             storage[par].right = NULL_NODE;
     }
+
     storage_size--;
 }
 
@@ -93,22 +108,33 @@ remove(i)
 int i;
 {
     int c, lc, rc;
+
+    if (i < 0 || i >= storage_size) {
+        printf("Index %d out of range.\n", i);
+        return;
+    }
+
     c = i;
     for (;;) {
-    if (storage[c].left == NULL_NODE && storage[c].right == NULL_NODE) {
-        remove_leaf(c);
-        break;
+        lc = storage[c].left;
+        rc = storage[c].right;
+
+        if (lc == NULL_NODE && rc == NULL_NODE) {
+            remove_leaf(c);
+            break;
+        }
+
+        if (rc == NULL_NODE ||
+            (lc != NULL_NODE && storage[lc].value >= storage[rc].value)) {
+            swap_vals(c, lc);
+            c = lc;
+        } else {
+            swap_vals(c, rc);
+            c = rc;
+        }
     }
-    lc = storage[c].left;
-    rc = storage[c].right;
-    if (storage[lc].value >= storage[rc].value || storage[c].right == NULL_NODE) {
-        swap_vals(c, storage[c].left);
-        c = storage[c].left;
-    } else {
-        swap_vals(c, storage[c].right);
-        c = storage[c].right;
-    }
-}
+
+    printf("Removed index %d.\n", i);
 }
 
 
