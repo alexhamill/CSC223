@@ -31,13 +31,5 @@ Terms
 * Pendant vertex: degree 1
 * cut vertex: when delete would diconect graph 
 
-```mermaid
-flowchart TD
-   A --- B
-   A --- C
-   B --- D
-   B --- C
-   C --- D
-   D --- A
-   D --- B
+
 
