@@ -81,7 +81,7 @@ char *argv[];
 
     if (argc != 3)
     {
-        puts("Usage: msort input.dat output.dat\n");
+        puts("Usage: merge sort input.dat output.dat\n");
         return;
     }
 
@@ -92,7 +92,7 @@ char *argv[];
     }
 
     count = 0;
-    while (count < SIZE && (fscanf(infp, "%d", &data[count]) != EOF))  
+    while (count < SIZE && (fscanf(infp, "%d", &data[count]) != EOF))
     {
         count++;
     }
@@ -112,5 +112,5 @@ char *argv[];
     }
     fclose(outfp);
 
-    puts("Done. File saved.\n");
+    puts("Done:)! File saved.\n");
 }
