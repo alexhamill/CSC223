@@ -1,4 +1,4 @@
-#include "SORT.H" 
+#include "SORT.C" 
 #include "BDSCTEST.H"
 
 main()

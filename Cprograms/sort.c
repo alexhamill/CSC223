@@ -1,18 +1,22 @@
 #include <stdio.h>
-#include "SORT.H"
 
-merge(arr, beg, mid, end)
-int arr[];
-int beg, mid, end;
+#define SIZE 100
+#define ERROR -1
+
+merge(arr, b, m, e)
+int *arr;       
+int b;
+int m;
+int e;
 {
     int i, j, index, k;
     int temp[SIZE];
 
-    i     = beg;
-    j     = mid + 1;
-    index = beg;
+    i = b;
+    j = m + 1;
+    index = b;
 
-    while ((i <= mid) && (j <= end))
+    while ((i <= m) && (j <= e))
     {
         if (arr[i] < arr[j])
         {
@@ -27,9 +31,9 @@ int beg, mid, end;
         index++;
     }
 
-    if (i > mid)
+    if (i > m)
     {
-        while (j <= end)
+        while (j <= e)
         {
             temp[index] = arr[j];
             j++;
@@ -38,7 +42,7 @@ int beg, mid, end;
     }
     else
     {
-        while (i <= mid)
+        while (i <= m)
         {
             temp[index] = arr[i];
             i++;
@@ -46,21 +50,22 @@ int beg, mid, end;
         }
     }
 
-    for (k = beg; k < index; k++)
+    for (k = b; k < index; k++)
         arr[k] = temp[k];
 }
 
-merge_sort(arr, beg, end)
-int arr[];
-int beg, end;
+merge_sort(arr, b, e)
+int *arr;
+int b;
+int e;
 {
-    int mid;
-    if (beg < end)
+    int m;
+    if (b < e)
     {
-        mid = (beg + end) / 2;
-        merge_sort(arr, beg, mid);
-        merge_sort(arr, mid + 1, end);
-        merge(arr, beg, mid, end);
+        m = (b + e) / 2;
+        merge_sort(arr, b, m);
+        merge_sort(arr, m + 1, e);
+        merge(arr, b, m, e);
     }
 }
 
@@ -68,7 +73,7 @@ main(argc, argv)
 int argc;
 char *argv[];
 {
-    FILE *infp, *outfp;
+    int infp, outfp;
     int data[SIZE];
     int count, i;
 
@@ -85,7 +90,7 @@ char *argv[];
     }
 
     count = 0;
-    while (count < SIZE && (fscanf(infp, "%d", &data[count]) != EOF))
+    while (count < SIZE && (fscanf(infp, "%d", &data[count]) != EOF))  
     {
         count++;
     }
@@ -96,7 +101,7 @@ char *argv[];
     if ((outfp = fopen(argv[2], "w")) == NULL)
     {
         puts("Can't create output file\n");
-        exit();
+        exit(1);
     }
 
     for (i = 0; i < count; i++)
