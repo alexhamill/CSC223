@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define SIZE 100
+#define SIZE 1000
 #define ERROR -1
 
 merge(arr, b, m, e)
