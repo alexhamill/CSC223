@@ -51,7 +51,9 @@ int e;
     }
 
     for (k = b; k < index; k++)
+    {
         arr[k] = temp[k];
+    }
 }
 
 merge_sort(arr, b, e)
