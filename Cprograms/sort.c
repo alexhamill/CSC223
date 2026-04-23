@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #define SIZE 1000
 #define ERROR -1
 
@@ -71,7 +69,7 @@ int e;
     }
 }
 
-main(argc, argv)
+main_merge_sort(argc, argv)
 int argc;
 char *argv[];
 {
