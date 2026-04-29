@@ -18,6 +18,7 @@
 # Precompiled Headers
 *.gch
 *.pch
+cpmbook.pdf
 
 # Libraries
 *.lib
