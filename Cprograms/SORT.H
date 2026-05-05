@@ -28,12 +28,9 @@ int arr[];
 int n;
 {
   int i, j;
-  for (i = 0; i < n - 1; i++)
-  {
-    for (j = 0; j < n - i - 1; j++)
-    {
-      if (arr[j] > arr[j+1])
-      {
+  for (i = 0; i < n - 1; i++) {
+    for (j = 0; j < n - i - 1; j++) {
+      if (arr[j] > arr[j+1]) {
         swap(&arr[j], &arr[j+1]);
       }
     }
@@ -47,14 +44,11 @@ int arr[];
 int n;
 {
   int i, j, temp;
-  for (i = 1; i < n; i++)
-  {
+  for (i = 1; i < n; i++) {
     temp = arr[i];
     j = i - 1;
-    while((j >= 0) && (temp < arr[j]))
-    {
-      arr[j+1] = arr[j];
-      j--;
+    while((j >= 0) && (temp < arr[j])) {
+      arr[j+1] = arr[j--];
     }
     arr[j+1] = temp;
   }
@@ -192,7 +186,6 @@ int n;
 
 /* ==============RADIX SORT==============*/
 
-/*
 counting_sort(arr, tmp, cnt, n, pos)
 int arr[];
 int tmp[];
@@ -203,21 +196,17 @@ int pos;
   int i;
   int d;
   int base;
-
   base = 1;
   for (i = 0; i < pos; i++)
     base *= BASE;
-
   for (i = 0; i < BASE; i++)
     cnt[i] = 0;
   for (i = 0; i < n; i++) {
     d = (arr[i] / base) % BASE;
     cnt[d]++;
   }
-
   for (i = 1; i < BASE; i++)
     cnt[i] += cnt[i - 1];
-
   for (i = n - 1; i >= 0; i--) {
     d = (arr[i] / base) % BASE;
     cnt[d]--;
@@ -237,7 +226,6 @@ int n;
   for (pass = 0; pass < MAXDIGITS; pass++)
     counting_sort(arr, tmp, cnt, n, pass);
 }
-*/
 
 /* ==============HEAP SORT==============*/
 
@@ -296,131 +284,73 @@ int n;
   }
 }
 
-/* ==============SHELL SORT==============*/
-
-/*
-int CIURA[9];
-
-shell_sort(arr, n)
-int arr[];
-int n;
-{
-  int i, a, b, h, temp;
-
-  CIURA[0] = 1750; CIURA[1] = 701; CIURA[2] = 301; CIURA[3] = 132;
-  CIURA[4] = 57;   CIURA[5] = 23;  CIURA[6] = 10;  CIURA[7] = 4;
-  CIURA[8] = 1;
-
-  for (i = 0; i < 9; i++) {
-    h = CIURA[i];
-    if (h >= n)
-      continue;
-
-    for (a = h; a < n; a++) {
-      temp = arr[a];
-      b = a;
-      while (b >= h && arr[b - h] > temp) {
-        arr[b] = arr[b - h];
-        b = b - h;
-      }
-      arr[b] = temp;
-    }
-  }
-}
-*/
-
 /* ==============TREE SORT==============*/
 
-/*
-struct TsNode {
-    int           value;
-    struct TsNode *left;
-    struct TsNode *right;
+struct tree {
+  struct tree *left;
+  int num;
+  struct tree *right;
 };
 
-struct TsNode *tsNewNod(n)
+insert(tpp, n)
+struct tree **tpp;
 int n;
 {
-    struct TsNode *p;
-    p = alloc(8);
-    if (p == NULL) {
-        printf("TREESORT: out of memory\n");
-        return NULL;
-    }
-    p->value = n;
-    p->left  = NULL;
-    p->right = NULL;
-    return p;
-}
-
-tsInsNod(nodePtr, n)
-struct TsNode **nodePtr;
-int n;
-{
-    struct TsNode *node;
-    node = *nodePtr;
-    if (node == NULL) {
-        *nodePtr = tsNewNod(n);
-        return 0;
-    }
-    if (n < node->value)
-        tsInsNod(&(node->left),  n);
-    else
-        tsInsNod(&(node->right), n);
+  struct tree *tree_node;
+  tree_node = *tpp;
+  if (tree_node == NULL) {
+    tree_node = alloc(8);
+    tree_node->num = n;
+    tree_node->left  = NULL;
+    tree_node->right = NULL;
+    *tpp = tree_node;
     return 0;
+  }
+  if (n < tree_node->num)
+    insert(&(tree_node->left),  n);
+  else
+    insert(&(tree_node->right), n);
+  return 0;
 }
 
-tsInoNod(node, out, countp)
-struct TsNode *node;
-int out[];
-int *countp;
+inorder(tree_node, arr, ip)
+struct tree *tree_node;
+int arr[];
+int *ip;
 {
-    if (node == NULL)
-        return 0;
-    tsInoNod(node->left,  out, countp);
-    out[*countp] = node->value;
-    (*countp)++;
-    tsInoNod(node->right, out, countp);
+  if (tree_node == NULL)
     return 0;
+  inorder(tree_node->left,  arr, ip);
+  arr[(*ip)++] = tree_node->num;
+  inorder(tree_node->right, arr, ip);
+  return 0;
 }
 
-tsFreNod(node)
-struct TsNode *node;
+free_tree(tree_node)
+struct tree *tree_node;
 {
-    if (node == NULL)
-        return 0;
-    tsFreNod(node->left);
-    tsFreNod(node->right);
-    free(node);
+  if (tree_node == NULL)
     return 0;
-}
-
-tsInord(tsRoot, out)
-struct TsNode *tsRoot;
-int out[];
-{
-    int count;
-    count = 0;
-    tsInoNod(tsRoot, out, &count);
-    return count;
+  free_tree(tree_node->left);
+  free_tree(tree_node->right);
+  free(tree_node);
+  return 0;
 }
 
 tree_sort(arr, n)
 int arr[];
 int n;
 {
-    int i, result;
-    struct TsNode *tsRoot;
+  int i, index;
+  struct tree *root;
 
-    tsRoot = NULL;
-    for (i = 0; i < n; i++)
-        tsInsNod(&tsRoot, arr[i]);
+  root = NULL;
+  for (i = 0; i < n; i++)
+    insert(&root, arr[i]);
 
-    result = tsInord(tsRoot, arr);
-    tsFreNod(tsRoot);
-
-    return result;
+  index = 0;
+  inorder(root, arr, &index);
+  free_tree(root);
 }
-*/
 
 #endif //SORT_H
