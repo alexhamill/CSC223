@@ -1,5 +1,3 @@
-
-#include "stdio.h"
 #include "BDSCTEST.h"
 #include "finalque.c"
 
