@@ -1,5 +1,7 @@
 #define NODESIZE 4
 
+    /* Made by Alex Hamill 2026 */
+
 struct node {
     int data;
     struct node *next;
